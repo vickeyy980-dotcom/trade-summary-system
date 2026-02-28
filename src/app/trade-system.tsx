@@ -32,21 +32,24 @@ type Trade = {
   Type: string;
   Vol?: string;
   Qty?: string;
-  Symbol?: string;
+  Script?: string;
   Exchange?: string;
 };
 
 function calcBrokerage(
   trade: Trade,
   nseRate: number,
-  mcxMap: Record<string, number>) {
+  mcxMap: Record<string, number>
+) {
   if (trade.Type === "FORWARD") return 0;
-  const vol = parseFloat(trade.Vol) || 0;
-  const qty = parseFloat(trade.Qty) || 0;
-  const scriptKey = trade.Script.toUpperCase();
+
+  const vol = parseFloat(trade.Vol ?? "0") || 0;
+  const qty = parseFloat(trade.Qty ?? "0") || 0;
+  const scriptKey = (trade.Script ?? "").toUpperCase();
+
   const mcxSettings = mcxMap[scriptKey];
-  if (mcxSettings || trade.Exchange === "MCX") {
-    const { lotQty = 1, rate = 40 } = mcxSettings || {};
+
+  if (trade.Exchange === "MCX" && mcxSettings) {
     return (qty / lotQty) * rate;
   }
   return vol * (nseRate / 10_000_000);
