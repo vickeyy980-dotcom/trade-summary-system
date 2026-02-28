@@ -28,7 +28,18 @@ const defaultRow = () => ({
 });
 
 // ─── CORE BROKERAGE ENGINE ──────────────────────────────────────────────────
-function calcBrokerage(trade, nseRate, mcxMap) {
+type Trade = {
+  Type: string;
+  Vol?: string;
+  Qty?: string;
+  Symbol?: string;
+  Exchange?: string;
+};
+
+function calcBrokerage(
+  trade: Trade,
+  nseRate: number,
+  mcxMap: Record<string, number>) {
   if (trade.Type === "FORWARD") return 0;
   const vol = parseFloat(trade.Vol) || 0;
   const qty = parseFloat(trade.Qty) || 0;
