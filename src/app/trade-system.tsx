@@ -10,7 +10,7 @@ const DEFAULT_MCX_SCRIPTS = [
   { script: "NATURALGAS", lotQty: 1250, rate: 35 },
 ];
 
-const fmt = (n) =>
+const fmt = (n: number | null | undefined) =>
   n === undefined || n === null || isNaN(n)
     ? "—"
     : Number(n).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
